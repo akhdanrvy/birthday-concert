@@ -1,77 +1,149 @@
 @import "tailwindcss";
 
 @theme {
-  --color-void: #08070d;
-  --color-stage-dark: #110e1b;
-  --color-stage-glass: rgba(22, 17, 38, 0.75);
-  --color-neon-pink: #ff2a85;
-  --color-neon-cyan: #00f0ff;
-  --color-neon-purple: #9d4edd;
-  --color-neon-gold: #ffd166;
+  --color-scrapbook-cream: #fcf7ea;
+  --color-scrapbook-cream-light: #fffdf7;
+  --color-scrapbook-maroon: #b82329;
+  --color-scrapbook-maroon-dark: #8f171c;
+  --color-scrapbook-maroon-deep: #680d12;
+  --color-scrapbook-kraft: #f5eedf;
+  --color-scrapbook-kraft-dark: #e8dcc8;
+  --color-scrapbook-blue: #8ebbee;
+  --color-scrapbook-blue-light: #d6e8fb;
+  --color-scrapbook-tape: #f5eedb;
 
-  --animate-lightstick-wave: wave 2.5s ease-in-out infinite alternate;
-  --animate-spotlight-sweep: sweep 8s ease-in-out infinite alternate;
-  --animate-pulse-glow: pulseGlow 2s ease-in-out infinite;
+  --font-fredoka: var(--font-fredoka), 'Fredoka', 'Lilita One', 'Comic Sans MS', cursive, sans-serif;
+  --font-jakarta: var(--font-jakarta), 'Plus Jakarta Sans', system-ui, sans-serif;
 
-  @keyframes wave {
+  --animate-gentle-tilt: gentleTilt 4s ease-in-out infinite alternate;
+  --animate-doodle-pulse: doodlePulse 3s ease-in-out infinite alternate;
+  --animate-float-slow: floatSlow 5s ease-in-out infinite alternate;
+
+  @keyframes gentleTilt {
     0% {
-      transform: rotate(-12deg) translateY(0px);
+      transform: rotate(-2deg);
     }
     100% {
-      transform: rotate(12deg) translateY(-8px);
+      transform: rotate(2deg);
     }
   }
 
-  @keyframes sweep {
+  @keyframes doodlePulse {
     0% {
-      transform: rotate(-25deg);
-      opacity: 0.2;
-    }
-    50% {
-      opacity: 0.6;
+      transform: scale(0.96) rotate(-3deg);
+      opacity: 0.85;
     }
     100% {
-      transform: rotate(25deg);
-      opacity: 0.2;
+      transform: scale(1.04) rotate(3deg);
+      opacity: 1;
     }
   }
 
-  @keyframes pulseGlow {
-    0%, 100% {
-      filter: drop-shadow(0 0 15px rgba(255, 42, 133, 0.6));
+  @keyframes floatSlow {
+    0% {
+      transform: translateY(0px) rotate(0deg);
     }
-    50% {
-      filter: drop-shadow(0 0 30px rgba(0, 240, 255, 0.8));
+    100% {
+      transform: translateY(-8px) rotate(1deg);
     }
   }
 }
 
 :root {
-  --background: #08070d;
-  --foreground: #f4f4f5;
+  --background: #f7faff;
+  --foreground: #4a1215;
+  --maroon: #b82329;
+  --maroon-dark: #8f171c;
+  --cream: #fcf7ea;
 }
 
+/* Blue Gingham Pure CSS linear-gradient background */
 body {
-  background-color: var(--background);
+  background-color: #f7faff;
+  background-image:
+    linear-gradient(90deg, rgba(136, 185, 237, 0.52) 50%, transparent 50%),
+    linear-gradient(0deg, rgba(136, 185, 237, 0.52) 50%, transparent 50%),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.22) 0, rgba(255, 255, 255, 0.22) 2px, transparent 2px, transparent 4px);
+  background-size: 44px 44px, 44px 44px, 6px 6px;
+  background-attachment: fixed;
   color: var(--foreground);
   min-height: 100vh;
   overflow-x: hidden;
+  font-family: var(--font-jakarta), 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
-/* Custom scrollbar */
+/* Puffy 3D Sticker Typography */
+.puffy-sticker-title {
+  font-family: var(--font-fredoka), 'Fredoka', 'Lilita One', cursive, sans-serif;
+  color: #fcf7ea;
+  -webkit-text-stroke: 10px #b82329;
+  paint-order: stroke fill;
+  filter: drop-shadow(0 6px 0px #8f171c) drop-shadow(0 10px 14px rgba(184, 35, 41, 0.35));
+}
+
+@media (max-width: 640px) {
+  .puffy-sticker-title {
+    -webkit-text-stroke: 6px #b82329;
+    filter: drop-shadow(0 4px 0px #8f171c) drop-shadow(0 6px 10px rgba(184, 35, 41, 0.3));
+  }
+}
+
+/* Washi Tape / Sticky Note */
+.washi-tape-label {
+  background-color: #fcf7ea;
+  border: 2.5px solid #b82329;
+  box-shadow: 4px 4px 0px #b82329;
+  color: #571317;
+  font-family: var(--font-jakarta), 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  position: relative;
+}
+
+/* Postage Stamp Perforated Mask */
+.postage-stamp-paper {
+  background-color: #ffffff;
+  position: relative;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.12)) drop-shadow(3px 3px 0px rgba(184, 35, 41, 0.2));
+  --stamp-radius: 5px;
+  --stamp-spacing: 14px;
+  mask:
+    radial-gradient(var(--stamp-radius) at 0 50%, #0000 98%, #000) 0 0 / 100% var(--stamp-spacing) repeat-y,
+    radial-gradient(var(--stamp-radius) at 100% 50%, #0000 98%, #000) 0 0 / 100% var(--stamp-spacing) repeat-y,
+    radial-gradient(var(--stamp-radius) at 50% 0, #0000 98%, #000) 0 0 / var(--stamp-spacing) 100% repeat-x,
+    radial-gradient(var(--stamp-radius) at 50% 100%, #0000 98%, #000) 0 0 / var(--stamp-spacing) 100% repeat-x;
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+}
+
+/* Hard Papercraft Shadows */
+.paper-shadow-sm {
+  box-shadow: 3px 3px 0px #b82329;
+}
+
+.paper-shadow-md {
+  box-shadow: 6px 6px 0px #b82329;
+}
+
+.paper-shadow-lg {
+  box-shadow: 8px 8px 0px #b82329;
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 9px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #08070d;
+  background: #f1f6fc;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1f1b2e;
-  border-radius: 4px;
+  background: #d86268;
+  border-radius: 6px;
+  border: 2px solid #f1f6fc;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #ff2a85;
+  background: #b82329;
 }
+

@@ -98,16 +98,31 @@ export const CsRoulette: React.FC<CsRouletteProps> = ({ onSpinFinished }) => {
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto flex flex-col items-center">
-      {/* Viewport Roulette dengan Pointer Indicator */}
+    <div className="w-full max-w-3xl mx-auto flex flex-col items-center select-none">
+      {/* Viewport Roulette dengan Pointer Pin / Paperclip Merah */}
       <div
         ref={containerRef}
-        className="relative w-full h-44 bg-zinc-950/90 border-2 border-zinc-800 rounded-xl overflow-hidden shadow-[inset_0_0_30px_rgba(0,0,0,0.9)]"
+        className="relative w-full h-44 bg-[#fcf7ea] border-4 border-[#b82329] rounded-2xl overflow-hidden shadow-[6px_6px_0px_#b82329]"
       >
-        {/* Jarum Pointer CS:GO (Atas & Bawah) */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1.5 h-6 bg-neon-gold z-30 shadow-[0_0_12px_#ffd166]" />
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1.5 h-6 bg-neon-gold z-30 shadow-[0_0_12px_#ffd166]" />
-        <div className="absolute inset-y-0 left-1/2 w-[2px] -translate-x-1/2 bg-neon-gold/50 z-20 pointer-events-none" />
+        {/* Ornamen Pin / Paperclip Penunjuk Merah (Atas) */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center pointer-events-none drop-shadow-md">
+          {/* Red pushpin head / clip marker */}
+          <div className="w-5 h-5 bg-[#b82329] rounded-full border-2 border-white shadow-sm flex items-center justify-center">
+            <div className="w-2 h-2 bg-[#fcf7ea] rounded-full" />
+          </div>
+          <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-[#b82329] -mt-0.5" />
+        </div>
+
+        {/* Ornamen Pin / Marker Penunjuk Merah (Bawah) */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center pointer-events-none drop-shadow-md">
+          <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[8px] border-b-[#b82329] -mb-0.5" />
+          <div className="w-5 h-5 bg-[#b82329] rounded-full border-2 border-white shadow-sm flex items-center justify-center">
+            <div className="w-2 h-2 bg-[#fcf7ea] rounded-full" />
+          </div>
+        </div>
+
+        {/* Garis Penunjuk Tengah Merah */}
+        <div className="absolute inset-y-0 left-1/2 w-[2px] -translate-x-1/2 bg-[#b82329]/60 z-20 pointer-events-none border-r border-dashed border-[#b82329]" />
 
         {/* Horizontal Carousel Track */}
         <div
@@ -120,19 +135,25 @@ export const CsRoulette: React.FC<CsRouletteProps> = ({ onSpinFinished }) => {
           {items.map((item, idx) => (
             <div
               key={idx}
-              className="flex-shrink-0 flex flex-col items-center justify-center h-36 mx-1 rounded-lg border p-2 bg-gradient-to-b from-zinc-900/80 to-zinc-950/90 relative"
+              className="flex-shrink-0 flex flex-col items-center justify-center h-36 mx-1 rounded-xl border-2 p-2 bg-white relative shadow-sm hover:shadow-md transition-shadow"
               style={{
                 width: `${CARD_WIDTH - 8}px`,
-                borderColor: item.accentColor,
+                borderColor: item.isGuaranteedTarget ? '#b82329' : `${item.accentColor}70`,
+                boxShadow: item.isGuaranteedTarget ? '0 0 14px rgba(184, 35, 41, 0.35)' : undefined,
               }}
             >
+              {item.isGuaranteedTarget && (
+                <span className="absolute top-1 text-[8px] font-black uppercase tracking-wider bg-[#b82329] text-[#fcf7ea] px-1.5 py-0.5 rounded-full">
+                  ★ SPECIAL ★
+                </span>
+              )}
               <div className="text-3xl mb-1">{item.image}</div>
-              <p className="text-[11px] font-bold text-center text-zinc-200 line-clamp-2 px-1">
+              <p className="text-[11px] font-extrabold text-center text-[#4a1215] line-clamp-2 px-1 leading-tight">
                 {item.name}
               </p>
               <div
-                className="absolute bottom-0 inset-x-0 h-1 rounded-b"
-                style={{ backgroundColor: item.accentColor }}
+                className="absolute bottom-0 inset-x-0 h-1.5 rounded-b-lg"
+                style={{ backgroundColor: item.accentColor || '#b82329' }}
               />
             </div>
           ))}
@@ -142,9 +163,9 @@ export const CsRoulette: React.FC<CsRouletteProps> = ({ onSpinFinished }) => {
       <button
         onClick={handleStartSpin}
         disabled={isSpinning}
-        className="mt-6 px-8 py-3.5 rounded-lg bg-gradient-to-r from-neon-gold via-amber-500 to-yellow-600 font-extrabold uppercase tracking-wider text-black shadow-[0_0_25px_rgba(255,209,102,0.5)] transition hover:scale-105 active:scale-95 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+        className="mt-6 px-8 py-3.5 rounded-xl bg-[#b82329] border-3 border-[#7a1317] font-black uppercase tracking-wider text-[#fcf7ea] shadow-[5px_5px_0px_#7a1317] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[3px_3px_0px_#7a1317] active:scale-95 disabled:opacity-60 cursor-pointer disabled:cursor-not-allowed text-sm sm:text-base"
       >
-        {isSpinning ? 'Rolling Case...' : 'Gacha Hadiah Ultah!'}
+        {isSpinning ? 'Sedang Membuka Boks...' : 'Gacha Hadiah Ultah! 🎁'}
       </button>
     </div>
   );

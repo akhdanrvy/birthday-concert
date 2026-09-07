@@ -13,51 +13,51 @@ export const PrizeClaimModal: React.FC<PrizeClaimModalProps> = ({ wonItem, onClo
   const [imgFailed, setImgFailed] = useState(false);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-md rounded-2xl border border-neon-gold/40 bg-stage-dark p-6 text-center shadow-[0_0_50px_rgba(255,209,102,0.3)]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#4a1215]/60 backdrop-blur-sm p-4 animate-in fade-in duration-200 select-none">
+      <div className="relative w-full max-w-md rounded-3xl border-4 border-[#b82329] bg-[#fcf7ea] p-6 sm:p-7 text-center shadow-[8px_8px_0px_#b82329]">
         {/* Tombol Tutup */}
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 text-zinc-400 hover:text-white transition cursor-pointer p-1"
+          className="absolute right-4 top-4 text-[#b82329] hover:text-[#8f171c] hover:bg-white/60 rounded-full transition cursor-pointer p-1.5"
           aria-label="Tutup Modal"
         >
-          <X className="h-6 w-6" />
+          <X className="h-5 w-5" />
         </button>
 
         {!showLocationPhoto ? (
           <>
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-neon-gold/10 text-neon-gold mb-4 mx-auto border border-neon-gold/30 shadow-[0_0_20px_rgba(255,209,102,0.4)]">
-              <Sparkles className="h-8 w-8" />
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#f4ecdb] text-[#b82329] mb-3 mx-auto border-2 border-[#b82329] shadow-[3px_3px_0px_#b82329]">
+              <Sparkles className="h-8 w-8 text-[#b82329]" />
             </div>
 
-            <span className="text-xs uppercase tracking-widest font-mono text-neon-gold block">
-              ★ SPECIAL COVERT DROP OBTAINED ★
+            <span className="text-xs uppercase tracking-widest font-black text-[#b82329] block">
+              ★ SPECIAL BIRTHDAY DROP UNLOCKED ★
             </span>
 
-            <h2 className="text-2xl font-black text-white mt-1 mb-2">{wonItem.name}</h2>
-            <div className="text-6xl my-4 animate-bounce">{wonItem.image}</div>
+            <h2 className="text-2xl font-black text-[#4a1215] mt-1 mb-2 font-sans">{wonItem.name}</h2>
+            <div className="text-6xl my-3 animate-bounce">{wonItem.image}</div>
 
-            <p className="text-sm text-zinc-300 mb-6 leading-relaxed">
-              Selamat! Hadiah asli ini bukan sekadar virtual. Barangnya sudah disembunyikan di tempat rahasia.
+            <p className="text-sm text-[#521316] mb-6 leading-relaxed font-medium">
+              Selamat! Hadiah asli ini bukan sekadar virtual. Barangnya sudah disembunyikan di tempat rahasia khusus buat kamu!
             </p>
 
             <button
               onClick={() => setShowLocationPhoto(true)}
-              className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-gradient-to-r from-neon-pink to-neon-purple text-white font-bold uppercase tracking-wider shadow-lg hover:brightness-110 active:scale-95 transition cursor-pointer"
+              className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-[#b82329] border-2 border-[#7a1317] text-[#fcf7ea] font-black uppercase tracking-wider shadow-[4px_4px_0px_#7a1317] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0px_#7a1317] active:scale-95 transition cursor-pointer text-sm sm:text-base"
             >
-              <MapPin className="h-5 w-5" />
+              <MapPin className="h-5 w-5 text-[#fcf7ea]" />
               Lihat Tempat Sembunyi Hadiah
             </button>
           </>
         ) : (
           <>
-            <div className="inline-flex items-center gap-2 text-neon-cyan font-bold text-sm mb-3">
-              <Gift className="h-4 w-4" /> Secret Stash Revealed!
+            <div className="inline-flex items-center gap-2 text-[#b82329] font-black text-sm mb-2">
+              <Gift className="h-4 w-4 text-[#b82329]" /> Tempat Rahasia Kado Terungkap!
             </div>
-            <h3 className="text-lg font-bold text-white mb-3">Cari di Spot Ini:</h3>
+            <h3 className="text-lg font-black text-[#4a1215] mb-3">Cari di Spot Ini:</h3>
 
             {/* Tempat Gambar Lokasi Sembunyi */}
-            <div className="relative w-full h-56 rounded-xl overflow-hidden border border-zinc-700 mb-4 bg-zinc-900 flex items-center justify-center">
+            <div className="relative w-full h-56 rounded-2xl overflow-hidden border-2 border-[#b82329] mb-4 bg-[#fffdf8] shadow-inner flex items-center justify-center">
               {!imgFailed ? (
                 <img
                   src="./images/hidden-location.jpg"
@@ -67,25 +67,25 @@ export const PrizeClaimModal: React.FC<PrizeClaimModalProps> = ({ wonItem, onClo
                 />
               ) : (
                 <div className="flex flex-col items-center justify-center p-4 text-center">
-                  <MapPin className="h-10 w-10 text-neon-pink mb-2 opacity-80" />
-                  <p className="text-xs text-zinc-400 font-mono">
+                  <MapPin className="h-10 w-10 text-[#b82329] mb-2" />
+                  <p className="text-xs text-[#4a1215] font-bold">
                     Foto belum dimasukkan
                   </p>
-                  <p className="text-[11px] text-zinc-500 mt-1">
+                  <p className="text-[11px] text-[#7a2226] mt-1 font-mono">
                     Simpan file ke: <br />
-                    <code className="text-zinc-400">/public/images/hidden-location.jpg</code>
+                    <code className="text-[#b82329] bg-white px-1.5 py-0.5 rounded border border-[#b82329]/30">/public/images/hidden-location.jpg</code>
                   </p>
                 </div>
               )}
             </div>
 
-            <p className="text-xs text-zinc-400 mb-5">
+            <p className="text-xs text-[#521316] font-medium mb-5">
               Petunjuk: Periksa laci / kolong meja / lemari kamar sesuai petunjuk di atas. Temukan kotaknya!
             </p>
 
             <button
               onClick={onClose}
-              className="w-full py-2.5 rounded-lg bg-zinc-800 text-zinc-200 font-semibold hover:bg-zinc-700 transition cursor-pointer"
+              className="w-full py-3 rounded-xl bg-[#fcf7ea] border-2 border-[#b82329] text-[#b82329] font-black uppercase tracking-wider hover:bg-white shadow-[3px_3px_0px_#b82329] transition active:scale-95 cursor-pointer"
             >
               Saya Sudah Menemukannya! (Tutup)
             </button>

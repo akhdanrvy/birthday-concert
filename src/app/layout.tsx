@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fredoka, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const fredoka = Fredoka({
+  variable: "--font-fredoka",
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
   subsets: ["latin"],
+  weight: ["500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
-  title: "VIP Birthday Concert Pass | Live Stage Experience",
-  description: "Special K-Pop Concert & CS-Style Case Opening Birthday Celebration",
+  title: "Happy Birthday Asha Mecca Mandani | Special Scrapbook Edition",
+  description: "Special Cutie Scrapbook Paper Craft Birthday Celebration & Surprise Drop",
 };
 
 export default function RootLayout({
@@ -25,9 +27,11 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${fredoka.variable} ${jakarta.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-void text-zinc-100">{children}</body>
+      <body className="min-h-full flex flex-col text-[#4a1215] font-sans antialiased selection:bg-[#b82329] selection:text-[#fcf7ea]">
+        {children}
+      </body>
     </html>
   );
 }
