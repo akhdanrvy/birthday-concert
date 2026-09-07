@@ -144,8 +144,17 @@ export default function BirthdayPage() {
 
         {/* HERO SECTION: Two Stamps Flanking Puffy Title */}
         <div className="w-full flex flex-col md:flex-row items-center justify-center gap-6 sm:gap-8 md:gap-4 lg:gap-10 my-4 sm:my-8">
-          {/* 1. Left Postage Stamp: Memory Photo (-6deg) with Maroon Paperclip */}
-          <div className="order-2 md:order-1 flex flex-col items-center">
+          {/* 1. Left Postage Stamp: Memory Photo (-6deg) with Maroon Paperclip + Mobile Cute Cat GIFs */}
+          <div className="order-2 md:order-1 flex items-center justify-center gap-2 sm:gap-4 w-full md:w-auto">
+            {/* Cat 1 GIF (Kiri) - Khusus Tampilan Mobile */}
+            <div className="block md:hidden shrink-0 -rotate-6 select-none pointer-events-none">
+              <img
+                src="./images/cat1.gif"
+                alt="Cute Cat 1"
+                className="w-12 h-12 min-[375px]:w-14 min-[375px]:h-14 sm:w-16 sm:h-16 object-contain drop-shadow-[2px_3px_0px_rgba(184,35,41,0.3)]"
+              />
+            </div>
+
             <StampFrame
               key={currentPhotoIdx}
               type="photo"
@@ -157,6 +166,15 @@ export default function BirthdayPage() {
               onClick={handleNextPhoto}
               badgeText={`${currentPhotoIdx + 1}/5 Klik`}
             />
+
+            {/* Cat 2 GIF (Kanan) - Khusus Tampilan Mobile */}
+            <div className="block md:hidden shrink-0 rotate-6 select-none pointer-events-none">
+              <img
+                src="./images/cat2.gif"
+                alt="Cute Cat 2"
+                className="w-12 h-12 min-[375px]:w-14 min-[375px]:h-14 sm:w-16 sm:h-16 object-contain drop-shadow-[2px_3px_0px_rgba(184,35,41,0.3)]"
+              />
+            </div>
           </div>
 
           {/* 2. Center: Puffy 3D Title + Asha Mecca Mandani Washi Tape */}

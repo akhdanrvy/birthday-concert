@@ -38,7 +38,7 @@ export const PrizeClaimModal: React.FC<PrizeClaimModalProps> = ({ wonItem, onClo
             <div className="text-6xl my-3 animate-bounce">{wonItem.image}</div>
 
             <p className="text-sm text-[#521316] mb-6 leading-relaxed font-medium">
-              Selamat! Hadiah asli ini bukan sekadar virtual. Barangnya sudah disembunyikan di tempat rahasia khusus buat kamu!
+              Selamat! Hadiah asli ini bukan sekadar virtual. Barangnya sudah disembunyikan di tempat rahasia khusus buat Aca!
             </p>
 
             <button
@@ -57,12 +57,12 @@ export const PrizeClaimModal: React.FC<PrizeClaimModalProps> = ({ wonItem, onClo
             <h3 className="text-lg font-black text-[#4a1215] mb-3">Cari di Spot Ini:</h3>
 
             {/* Tempat Gambar Lokasi Sembunyi */}
-            <div className="relative w-full h-56 rounded-2xl overflow-hidden border-2 border-[#b82329] mb-4 bg-[#fffdf8] shadow-inner flex items-center justify-center">
+            <div className="relative w-full h-64 sm:h-72 rounded-2xl overflow-hidden border-2 border-[#b82329] mb-4 bg-[#fffdf8] shadow-inner flex items-center justify-center">
               {!imgFailed ? (
                 <img
-                  src="./images/hidden-location.jpg"
-                  alt="Lokasi Hadiah"
-                  className="w-full h-full object-cover"
+                  src="./images/images_powerbank.jpeg"
+                  alt="Lokasi Hadiah Powerbank"
+                  className="w-full h-full object-contain p-1"
                   onError={() => setImgFailed(true)}
                 />
               ) : (
@@ -73,14 +73,14 @@ export const PrizeClaimModal: React.FC<PrizeClaimModalProps> = ({ wonItem, onClo
                   </p>
                   <p className="text-[11px] text-[#7a2226] mt-1 font-mono">
                     Simpan file ke: <br />
-                    <code className="text-[#b82329] bg-white px-1.5 py-0.5 rounded border border-[#b82329]/30">/public/images/hidden-location.jpg</code>
+                    <code className="text-[#b82329] bg-white px-1.5 py-0.5 rounded border border-[#b82329]/30">/public/images/images_powerbank.jpeg</code>
                   </p>
                 </div>
               )}
             </div>
 
             <p className="text-xs text-[#521316] font-medium mb-5">
-              Petunjuk: Periksa laci / kolong meja / lemari kamar sesuai petunjuk di atas. Temukan kotaknya!
+              Petunjuk: Di lantai atas
             </p>
 
             <button
