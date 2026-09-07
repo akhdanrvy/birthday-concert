@@ -33,7 +33,7 @@ export const CsRoulette: React.FC<CsRouletteProps> = ({ onSpinFinished }) => {
   const playTickSound = () => {
     try {
       const tickAudio = new Audio('./audio/tick.mp3');
-      tickAudio.volume = 0.4;
+      tickAudio.volume = 0.2; // Diturunkan 50% agar suaranya pas dan tidak terlalu keras
       tickAudio.play().catch(() => {
         // Fallback Web Audio API synthetic mechanical click
         try {
@@ -45,7 +45,7 @@ export const CsRoulette: React.FC<CsRouletteProps> = ({ onSpinFinished }) => {
           osc.type = 'triangle';
           osc.frequency.setValueAtTime(650, ctx.currentTime);
           osc.frequency.exponentialRampToValueAtTime(180, ctx.currentTime + 0.035);
-          gain.gain.setValueAtTime(0.12, ctx.currentTime);
+          gain.gain.setValueAtTime(0.06, ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.035);
           osc.connect(gain);
           gain.connect(ctx.destination);
@@ -72,18 +72,21 @@ export const CsRoulette: React.FC<CsRouletteProps> = ({ onSpinFinished }) => {
 
     setTranslateX(finalOffset);
 
-    // Mainkan sound ticking berulang
-    let ticks = 0;
-    const tickInterval = setInterval(() => {
-      playTickSound();
-      ticks++;
-      if (ticks > 45) clearInterval(tickInterval);
-    }, 110);
+    // Mainkan audio spin sekali saja saat putaran dimulai
+    playTickSound();
 
-    // Animasi berlangsung selama 6 detik sesuai transition CSS
+    // Animasi berlangsung selama 10 detik sesuai transition CSS
     setTimeout(() => {
       setIsSpinning(false);
-      clearInterval(tickInterval);
+
+      // Play firework sound effect on win
+      try {
+        const fireworkAudio = new Audio('./audio/firework.mp3');
+        fireworkAudio.volume = 0.25; // Diturunkan agar suaranya lembut dan tidak terlalu keras
+        fireworkAudio.play().catch(() => {});
+      } catch {
+        // ignore if autoplay prevented
+      }
 
       // Trigger blast confetti for the covert win
       confetti({
@@ -94,7 +97,7 @@ export const CsRoulette: React.FC<CsRouletteProps> = ({ onSpinFinished }) => {
       });
 
       onSpinFinished(GUARANTEED_PRIZE);
-    }, 6200);
+    }, 10200);
   };
 
   return (
@@ -124,9 +127,9 @@ export const CsRoulette: React.FC<CsRouletteProps> = ({ onSpinFinished }) => {
         {/* Garis Penunjuk Tengah Merah */}
         <div className="absolute inset-y-0 left-1/2 w-[2px] -translate-x-1/2 bg-[#b82329]/60 z-20 pointer-events-none border-r border-dashed border-[#b82329]" />
 
-        {/* Horizontal Carousel Track */}
+        {/* Horizontal Carousel Track (10 Detik) */}
         <div
-          className="flex h-full items-center transition-transform duration-[6000ms]"
+          className="flex h-full items-center transition-transform duration-[10000ms]"
           style={{
             transform: `translateX(${translateX}px)`,
             transitionTimingFunction: 'cubic-bezier(0.12, 0.85, 0.15, 1)',

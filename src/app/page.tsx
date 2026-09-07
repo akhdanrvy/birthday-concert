@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { StageIntro } from '@/components/StageIntro';
 import { ConcertAmbiance } from '@/components/ConcertAmbiance';
 import { DoodleStarsBackground } from '@/components/DoodleStars';
@@ -20,37 +20,87 @@ export default function BirthdayPage() {
 
   // List of photo cards that can be cycled in the memory stamp
   const photoList = [
-    './images/photocard-1.jpg',
-    './images/photocard-2.jpg',
-    './images/photocard-3.jpg',
-    './images/photocard-4.jpg',
-    './images/photocard-5.jpg',
+    './images/images (1).jpeg',
+    './images/images (2).jpeg',
+    './images/images (3).jpeg',
+    './images/images (4).jpeg',
+    './images/images (5).jpeg',
+  ];
+
+  const photoCaptions = [
+    '★ ROCKSTAR ACA ★',
+    '★ HAPPY MILAD ACA ★',
+    '★ PEMBALAP HANDAL ★',
+    '★ TEMANAN MERPATI ★',
+    '★ SIAP, KOMANDAN! ★',
   ];
 
   const handleNextPhoto = () => {
     setCurrentPhotoIdx((prev) => (prev + 1) % photoList.length);
   };
 
-  const handleEnterStage = () => {
-    setHasEnteredStage(true);
-    // Jalankan background ambience penonton
+  // Fungsi untuk memulai ambience.mp3 dari awal
+  const playAmbience = useCallback(() => {
     try {
-      const audio = new Audio('./audio/crowd.mp3');
-      audio.loop = true;
-      audio.volume = 0.3;
-      audio.play().catch(() => {
-        // Browser autoplay or file not found
-      });
-      crowdAudioRef.current = audio;
+      if (!crowdAudioRef.current) {
+        const audio = new Audio('./audio/ambience.mp3');
+        audio.loop = true;
+        audio.volume = 0.35;
+        crowdAudioRef.current = audio;
+      }
+      if (crowdAudioRef.current.paused) {
+        crowdAudioRef.current.play().then(() => {
+          setIsMuted(false);
+        }).catch(() => {
+          // Autoplay dicegah oleh kebijakan browser hingga ada interaksi klik pengguna
+        });
+      }
     } catch {
       // Audio initialization fallback
     }
+  }, []);
+
+  // Mulai audio sejak halaman pertama dimuat & saat interaksi pertama pengguna
+  useEffect(() => {
+    playAmbience();
+
+    const handleFirstGesture = () => {
+      playAmbience();
+      window.removeEventListener('pointerdown', handleFirstGesture);
+      window.removeEventListener('touchstart', handleFirstGesture);
+      window.removeEventListener('click', handleFirstGesture);
+      window.removeEventListener('keydown', handleFirstGesture);
+    };
+
+    window.addEventListener('pointerdown', handleFirstGesture, { passive: true });
+    window.addEventListener('touchstart', handleFirstGesture, { passive: true });
+    window.addEventListener('click', handleFirstGesture, { passive: true });
+    window.addEventListener('keydown', handleFirstGesture, { passive: true });
+
+    return () => {
+      window.removeEventListener('pointerdown', handleFirstGesture);
+      window.removeEventListener('touchstart', handleFirstGesture);
+      window.removeEventListener('click', handleFirstGesture);
+      window.removeEventListener('keydown', handleFirstGesture);
+    };
+  }, [playAmbience]);
+
+  const handleEnterStage = () => {
+    setHasEnteredStage(true);
+    playAmbience();
   };
 
   const toggleMute = () => {
-    if (!crowdAudioRef.current) return;
+    if (!crowdAudioRef.current) {
+      playAmbience();
+      return;
+    }
+    if (crowdAudioRef.current.paused) {
+      crowdAudioRef.current.play().then(() => setIsMuted(false)).catch(() => {});
+      return;
+    }
     if (isMuted) {
-      crowdAudioRef.current.volume = 0.3;
+      crowdAudioRef.current.volume = 0.35;
       setIsMuted(false);
     } else {
       crowdAudioRef.current.volume = 0;
@@ -63,25 +113,27 @@ export default function BirthdayPage() {
       {/* Hand-drawn Maroon Doodle Stars Background */}
       <DoodleStarsBackground />
 
+      {/* Floating Audio Toggle (tersedia sejak layar intro) */}
+      <button
+        onClick={toggleMute}
+        className="fixed top-4 right-4 z-50 flex items-center gap-2 rounded-full border-2 border-[#b82329] bg-[#fcf7ea] px-3.5 py-1.5 text-xs font-bold text-[#b82329] shadow-[3px_3px_0px_#b82329] hover:bg-white active:translate-x-0.5 active:translate-y-0.5 transition cursor-pointer"
+        title={isMuted ? 'Nyalakan Audio' : 'Matikan Audio'}
+      >
+        {isMuted ? <VolumeX className="h-4 w-4 text-[#b82329]" /> : <Volume2 className="h-4 w-4 text-[#b82329]" />}
+        <span>{isMuted ? 'SOUND OFF' : 'LIVE AUDIO'}</span>
+      </button>
+
       {/* Intro Modal Curtain */}
       {!hasEnteredStage && (
-        <StageIntro recipientName="Asha Mecca Mandani" onEnterStage={handleEnterStage} />
+        <StageIntro
+          recipientName="Asha Mecca Mandani"
+          onEnterStage={handleEnterStage}
+          onStartAudio={playAmbience}
+        />
       )}
 
       {/* Ambiance lightsticks without dark overlay */}
       <ConcertAmbiance />
-
-      {/* Floating Audio Toggle (appears after entering stage) */}
-      {hasEnteredStage && (
-        <button
-          onClick={toggleMute}
-          className="fixed top-4 right-4 z-40 flex items-center gap-2 rounded-full border-2 border-[#b82329] bg-[#fcf7ea] px-3.5 py-1.5 text-xs font-bold text-[#b82329] shadow-[3px_3px_0px_#b82329] hover:bg-white active:translate-x-0.5 active:translate-y-0.5 transition cursor-pointer"
-          title={isMuted ? 'Unmute Audio' : 'Mute Audio'}
-        >
-          {isMuted ? <VolumeX className="h-4 w-4 text-[#b82329]" /> : <Volume2 className="h-4 w-4 text-[#b82329]" />}
-          <span>{isMuted ? 'SOUND OFF' : 'LIVE AUDIO'}</span>
-        </button>
-      )}
 
       {/* Main Scrapbook Content */}
       <div className="relative z-10 max-w-5xl mx-auto px-4 pt-10 pb-28 sm:pb-24 flex flex-col items-center text-center">
@@ -95,12 +147,13 @@ export default function BirthdayPage() {
           {/* 1. Left Postage Stamp: Memory Photo (-6deg) with Maroon Paperclip */}
           <div className="order-2 md:order-1 flex flex-col items-center">
             <StampFrame
+              key={currentPhotoIdx}
               type="photo"
               rotation={-6}
               photoSrc={photoList[currentPhotoIdx]}
-              fallbackSrc="./images/sibling-photo.jpg"
-              title="Foto Kenangan"
-              caption={`★ KENANGAN #${currentPhotoIdx + 1} ★`}
+              fallbackSrc="./images/images (1).jpeg"
+              title="Foto Kenangan Aca"
+              caption={photoCaptions[currentPhotoIdx] || `★ KENANGAN #${currentPhotoIdx + 1} ★`}
               onClick={handleNextPhoto}
               badgeText={`${currentPhotoIdx + 1}/5 Klik`}
             />
@@ -125,7 +178,7 @@ export default function BirthdayPage() {
             <StampFrame
               type="meme"
               rotation={6}
-              photoSrc="./images/meme-sticker.png"
+              photoSrc="./images/happycat.gif"
               title="Stiker Meme"
               caption="★ MOOD HARI INI ★"
             />
@@ -139,10 +192,10 @@ export default function BirthdayPage() {
             Special Birthday Memo
           </div>
           <p className="pt-1">
-            Selamat bertambah usia, <strong className="text-[#b82329] font-bold">Asha Mecca Mandani</strong>! Semoga harimu selalu dipenuhi nada-nada bahagia, energi positif tanpa batas, dan semua impian manismu terwujud nyata.
+            Selamat ulang tahun, <strong className="text-[#b82329] font-bold">Acaa</strong>! Semoga aca panjang umur, sehat selalu, makin jago nyanyi, dan semua impiannya terwujud nyata!
           </p>
           <p>
-            Terima kasih sudah selalu jadi sosok yang hebat, seru, dan penuh keceriaan. Di hari spesial ini, ada surprise kotak kado rahasia khusus buat kamu!
+            Aca nurut terus sama mama & papa, kasih makan 3M, jangan keseringan keluar keluar rumah, & jangan lupa sholat dan belajar!
           </p>
         </div>
 
@@ -152,7 +205,7 @@ export default function BirthdayPage() {
             onClick={() => setShowCaseOpener(true)}
             className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-[#b82329] border-3 border-[#7a1317] font-black uppercase tracking-wider text-[#fcf7ea] shadow-[6px_6px_0px_#7a1317] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[4px_4px_0px_#7a1317] active:scale-95 transition cursor-pointer text-base sm:text-lg"
           >
-            <Gift className="h-6 w-6 text-[#fcf7ea]" /> Buka Kotak Hadiahmu!
+            <Gift className="h-6 w-6 text-[#fcf7ea]" /> Buka Kotak Hadiah!
           </button>
         ) : (
           <div className="w-full mt-2 flex flex-col items-center">

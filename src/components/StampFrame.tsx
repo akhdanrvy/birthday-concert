@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Paperclip } from 'lucide-react';
 
 // Maroon Paperclip Wire SVG matching reference image
@@ -136,6 +136,10 @@ export const StampFrame: React.FC<StampFrameProps> = ({
   badgeText,
 }) => {
   const [imgError, setImgError] = useState(false);
+
+  useEffect(() => {
+    setImgError(false);
+  }, [photoSrc]);
 
   return (
     <div

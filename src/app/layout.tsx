@@ -15,7 +15,7 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Happy Birthday Asha Mecca Mandani | Special Scrapbook Edition",
+  title: "Happy Birthday Aca | Special Scrapbook Edition",
   description: "Special Cutie Scrapbook Paper Craft Birthday Celebration & Surprise Drop",
 };
 
